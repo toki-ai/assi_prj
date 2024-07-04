@@ -44,7 +44,7 @@ CREATE TABLE Products (
     SupplierID INT,
     CategoryID INT,
     QuantityPerUnit NVARCHAR(255),
-    UnitPrice DECIMAL(10, 2),
+    UnitPrice FLOAT(53),
     ProductImage NVARCHAR(MAX),
     FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
