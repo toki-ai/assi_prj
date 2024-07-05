@@ -3,26 +3,27 @@ package model.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.entity.Product;
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import service.DBUtils;
 
 public class ProductDAO {
-    Connection cnn = null; 
+
+    Connection cnn = null;
     PreparedStatement ps = null;
-    ResultSet rs = null; 
-    
-    public List<Product> getAllProducts(){
+    ResultSet rs = null;
+    private String subQuery = "SELECT p.ProductID, p.ProductName, p.SupplierID, c.CategoryName, p.QuantityPerUnit, p.UnitPrice, p.ProductImage \n"
+            + "FROM dbo.Products p JOIN dbo.Categories c \n"
+            + "ON p.CategoryID = c.CategoryID";
+    public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
-        String query = "SELECT p.ProductID, p.ProductName, p.SupplierID, c.CategoryName, p.QuantityPerUnit, p.UnitPrice, p.ProductImage FROM dbo.Products p JOIN dbo.Categories c ON p.CategoryID = c.CategoryID" ;
+        String query = subQuery;
         try {
             cnn = new DBUtils().getConnection();
             ps = cnn.prepareStatement(query);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
@@ -32,10 +33,92 @@ public class ProductDAO {
                         rs.getDouble("UnitPrice"),
                         rs.getString("ProductImage")
                 ));
-            }   
+            }
         } catch (Exception e) {
-            System.out.println("Error get all products in DAO" + e.getMessage());
-        } 
+            System.out.println("Error get all products in DAO " + e.getMessage());
+        }
         return list;
+    }
+
+    public List<Product> getProductsByCategory(String categoryID) {
+        List<Product> list = new ArrayList<>();
+        String query = subQuery + " WHERE c.CategoryID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, categoryID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getInt("SupplierID"),
+                        rs.getString("CategoryName"),
+                        rs.getString("QuantityPerUnit"),
+                        rs.getDouble("UnitPrice"),
+                        rs.getString("ProductImage")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Error get products by category in DAO " + e.getMessage());
+        }
+        return list;
+    }
+    
+    public List<Product> getProductsByName(String inputSearch) {
+        List<Product> list = new ArrayList<>();
+        String query = subQuery + " WHERE p.ProductName LIKE ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, "%" + inputSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+               list.add(new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getInt("SupplierID"),
+                        rs.getString("CategoryName"),
+                        rs.getString("QuantityPerUnit"),
+                        rs.getDouble("UnitPrice"),
+                        rs.getString("ProductImage")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Error get products by product name in DAO " + e.getMessage());
+        }
+        return list;
+    }
+    
+    public Product getProductsById(String productsID) {
+        String query = subQuery + " WHERE p.ProductID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, productsID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+               return new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getInt("SupplierID"),
+                        rs.getString("CategoryName"),
+                        rs.getString("QuantityPerUnit"),
+                        rs.getDouble("UnitPrice"),
+                        rs.getString("ProductImage")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Error get products by product id in DAO " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+        List<Product> listP = productDAO.getProductsByName("mar");
+        for (Product o : listP) {
+            System.out.println(o);
+        }
     }
 }
