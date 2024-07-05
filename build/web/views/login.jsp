@@ -15,12 +15,14 @@
                     <form action="login" method="POST">
                         <div data-mdb-input-init class="form-outline mb-4">
                             <label class="form-label" for="loginName">Username</label>
-                            <input name="username" type="text" id="loginName" class="form-control" />
+                            <input value="${userC}" name="username" type="text" id="loginName" class="form-control" />
                         </div>
                         <div data-mdb-input-init class="form-outline mb-4">
                             <label class="form-label" for="loginPassword">Password</label>
-                            <input name="password" type="password" id="loginPassword" class="form-control" />                       
+                            <input value="${passC}" name="password" type="password" id="loginPassword" class="form-control" />                       
                         </div>
+                        <input name="checkRemember" value="check" type="checkbox"/>
+                        <span>Remember me</span>
                         <p class="text-danger">${message}</p>
                         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
                         <div class="text-center">

@@ -113,12 +113,4 @@ public class ProductDAO {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
-        List<Product> listP = productDAO.getProductsByName("mar");
-        for (Product o : listP) {
-            System.out.println(o);
-        }
-    }
 }

@@ -34,8 +34,8 @@ public class AccountDAO {
         return null; 
     }
     
-    public Account checkAccountExit (String username, String id){
-        String query = "select * from Account where Username = ? or AccountID = ?";
+    public Account checkAccountExit (String username){
+        String query = "select * from Account where Username = ?";
         try {
             cnn = new DBUtils().getConnection();
             ps = cnn.prepareStatement(query); 
@@ -56,13 +56,18 @@ public class AccountDAO {
         return null; 
     }
     
-    public boolean createAccount (String username, String pass, String fullname){
-        String query = ""; 
+    public void createAccount (String username, String password, String fullname){
+        String query = "INSERT INTO Account (UserName, Password, FullName, Type) VALUES\n" +
+                    "(?, ?, ?, 2)"; 
         try {
-            return true;
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query); 
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, fullname);
+            ps.executeUpdate(); 
         } catch (Exception e) {
             System.out.println("Error in create account " + e.getMessage());
-            return false;
         }
     }
 }

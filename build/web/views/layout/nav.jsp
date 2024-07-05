@@ -2,7 +2,7 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #fff6d7; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); ">
     <!-- Container wrapper -->
     <div class="container">   
-        
+
         <div class="d-flex align-items-center" id="navbarSupportedContent1">      
             <!-- Left -->
             <img class="navbar-brand mt-2 mt-sm-0" 
@@ -18,39 +18,55 @@
         <div class="d-flex align-items-center">
             <!-- Mid -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" style='margin-left: 40px'>
-                <li class="nav-item active">
-                    <a class="nav-link " href="https://mdbootstrap.com/">Pizza</a>
-                </li>
-                <li class="nav-item">
-                    <select name="Categories" id="cars">
-                        <option value="" disabled selected style="display: none;">Categories</option>
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://mdbootstrap.com/docs/standard/getting-started/installation/">Reviews</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Orders</a>
-                </li>
+                <c:if test="${sessionScope.role == 1}">
+                    <li class="nav-item active">
+                        <a class="nav-link " href="manage/products">Manage Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="manage/accounts">Manage Accounts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="manage/orders">Manage Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="manage/reports">Report</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.role == 2}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Reviews</a>
+                    </li>
+                </c:if>
             </ul>    
         </div>
         <!-- Right -->
         <div class="d-flex align-items-center">
-            <a class="nav-link me-3" href="#">
-                <i class="fa-regular fa-circle-user"></i>
-            </a>
-            <p>Hello ${userName}</p>
-            <a href="/FindingNemo" class="border rounded px-2 nav-link">
-                logout
-            </a>
+            <c:if test="${sessionScope.user != null}">
+                <a class="nav-link me-3" href="#">
+                    <i class="fa-regular fa-circle-user"></i>
+                </a>
+                <p>Hello ${sessionScope.user.userName}</p>
+                <a href="logout" class="border rounded px-2 nav-link">
+                    Logout
+                </a>
+            </c:if>
+            <c:if test="${sessionScope.user == null}">
+                <a href="login" class="border rounded px-2 nav-link">
+                    Login
+                </a>
+            </c:if>
+            <c:if test="${sessionScope.role == 2}">
+                <div style="margin-left: 20px" class="border rounded px-2 nav-link">
+                    <i class="fa-solid fa-cart-shopping"></i> 
+                    <span style="margin: 0 5px; background-color: orange; color: white; border-radius: 50%; padding: 0 5px; ">5</span>
+                </div>
+            </c:if>
         </div>
-        <!-- Right elements -->
-
     </div>
-    <!-- Container wrapper -->
 </nav>
-<!-- Navbar -->

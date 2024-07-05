@@ -44,7 +44,7 @@ CREATE TABLE Orders (
     OrderDate DATE,
     RequiredDate DATE,
     ShippedDate DATE,
-    Freight DECIMAL(10, 2),
+    Freight FLOAT,
     ShipAddress NVARCHAR(255),
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
@@ -53,7 +53,7 @@ CREATE TABLE Orders (
 CREATE TABLE OrderDetails (
     OrderID INT,
     ProductID INT,
-    UnitPrice DECIMAL(10, 2),
+    UnitPrice FLOAT,
     Quantity INT,
     PRIMARY KEY (OrderID, ProductID),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
@@ -101,6 +101,17 @@ INSERT INTO Orders (CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, S
 (1, '2024-07-01', '2024-07-02', '2024-07-01', 2.50, '123 Main St'),
 (2, '2024-07-02', '2024-07-03', '2024-07-02', 2.50, '456 Elm St'),
 (3, '2024-07-03', '2024-07-04', '2024-07-03', 2.50, '789 Oak St');
+
+INSERT INTO Orders (CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES
+(1, '2024-06-01', '2024-06-02', '2024-06-01', 3.00, '123 Main St'),
+(2, '2024-06-02', '2024-06-03', '2024-06-02', 3.00, '456 Elm St'),
+(3, '2024-06-03', '2024-06-04', '2024-06-03', 3.00, '789 Oak St');
+
+
+INSERT INTO Orders (CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES
+(1, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '123 Main St'),
+(2, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '456 Elm St'),
+(3, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '789 Oak St');
 
 -- Insert data into Order Details table
 INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity) VALUES
