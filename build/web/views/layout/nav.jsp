@@ -17,7 +17,7 @@
         </div>
         <div class="d-flex align-items-center">
             <!-- Mid -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style='margin-left: 40px'>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style='margin-left: 40px'>           
                 <c:if test="${sessionScope.role == 1}">
                     <li class="nav-item active">
                         <a class="nav-link " href="manage/products">Manage Products</a>
@@ -33,14 +33,14 @@
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.role == 2}">
+                    <li class="nav-item active">
+                        <a class="nav-link " href="home">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Reviews</a>
+                        <a class="nav-link" href="reviews">Reviews</a>
                     </li>
                 </c:if>
             </ul>    
@@ -62,10 +62,10 @@
                 </a>
             </c:if>
             <c:if test="${sessionScope.role == 2}">
-                <div style="margin-left: 20px" class="border rounded px-2 nav-link">
+                <a href="viewCart" style="margin-left: 20px" class="border rounded px-2 nav-link">
                     <i class="fa-solid fa-cart-shopping"></i> 
-                    <span style="margin: 0 5px; background-color: orange; color: white; border-radius: 50%; padding: 0 5px; ">5</span>
-                </div>
+                    <span style="margin: 0 5px; background-color: orange; color: white; border-radius: 50%; padding: 0 5px; ">${cartSize}</span>
+                </a>
             </c:if>
         </div>
     </div>

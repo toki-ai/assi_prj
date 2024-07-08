@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import model.entity.Category;
-import service.DBUtils;
+import utils.DBUtils;
 
 public class CategoryDAO {
     Connection cnn = null; 

@@ -1,28 +1,39 @@
 .carousel-item {
-      height: 50vh;
-    }
+    height: 50vh;
+}
+
+#notification {
+    display: none;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+}
+
 .card {
- box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .footer-cta {
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
 }
 .price {
-  color: #263238;
-  font-size: 24px;
+    color: #263238;
+    font-size: 24px;
 }
 
 .card-title {
-color:#263238
+    color:#263238
 }
 
 .sale {
-  color: #E53935
+    color: #E53935
 }
 
 .sale-badge {
-  background-color: #E53935
+    background-color: #E53935
 }
 
 .box-img{

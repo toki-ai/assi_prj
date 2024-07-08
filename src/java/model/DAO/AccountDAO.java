@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.entity.Account;
-import service.DBUtils;
+import utils.DBUtils;
 
 public class AccountDAO {
     Connection cnn = null;

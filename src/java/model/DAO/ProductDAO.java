@@ -3,10 +3,11 @@ package model.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.entity.Product;
-import service.DBUtils;
+import utils.DBUtils;
 
 public class ProductDAO {
 
@@ -16,6 +17,7 @@ public class ProductDAO {
     private String subQuery = "SELECT p.ProductID, p.ProductName, p.SupplierID, c.CategoryName, p.QuantityPerUnit, p.UnitPrice, p.ProductImage \n"
             + "FROM dbo.Products p JOIN dbo.Categories c \n"
             + "ON p.CategoryID = c.CategoryID";
+
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         String query = subQuery;
@@ -64,7 +66,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<Product> getProductsByName(String inputSearch) {
         List<Product> list = new ArrayList<>();
         String query = subQuery + " WHERE p.ProductName LIKE ?";
@@ -74,7 +76,7 @@ public class ProductDAO {
             ps.setString(1, "%" + inputSearch + "%");
             rs = ps.executeQuery();
             while (rs.next()) {
-               list.add(new Product(
+                list.add(new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getInt("SupplierID"),
@@ -89,7 +91,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public Product getProductsById(String productsID) {
         String query = subQuery + " WHERE p.ProductID = ?";
         try {
@@ -98,7 +100,7 @@ public class ProductDAO {
             ps.setString(1, productsID);
             rs = ps.executeQuery();
             while (rs.next()) {
-               return new Product(
+                return new Product(
                         rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getInt("SupplierID"),

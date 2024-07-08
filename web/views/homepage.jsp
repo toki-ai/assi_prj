@@ -13,6 +13,7 @@
         <%@include file="layout/slider.jsp" %>
         <main>
             <div class="container">
+                <h1 id="notification">${message}</h1>
                 <c:if test="${sessionScope.user.type == 2 || sessionScope.user.type == null}">
                     <%@include file="layout/products.jsp" %>
                 </c:if>
@@ -23,5 +24,17 @@
         </main>
         <!--Main layout-->
         <%@include file="layout/footer.jsp" %>
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var notification = document.getElementById("notification");
+            var message = notification.innerText;
+            if (message) {
+                notification.style.display = "block";
+                setTimeout(function() {
+                    notification.style.display = "none";
+                }, 3000); 
+            }
+        });
+    </script>
     </body>
 </html>
