@@ -6,17 +6,17 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.entity.OrderDetail;
+import model.entity.Cart;
 
 public class CartUtil {
 
-    public HashMap<Integer, OrderDetail> getCartFromCookie(Cookie cookieCart) {
-        HashMap<Integer, OrderDetail> cart = new HashMap<>();
+    public HashMap<Integer, Cart> getCartFromCookie(Cookie cookieCart) {
+        HashMap<Integer, Cart> cart = new HashMap<>();
         String[] arrItemDetail;
-        int orderID, productID, quantity;
-        String productName;
+        int productID, quantity;
+        String productName, productImage, categoryName;
         double unitPrice;
-        OrderDetail item;
+        Cart item;
         Base64.Decoder base64Decoder = Base64.getDecoder();
 
         String encodedString = new String(base64Decoder.decode(cookieCart.getValue().getBytes()));
@@ -24,14 +24,15 @@ public class CartUtil {
 
         for (String strItem : itemsList) {
             arrItemDetail = strItem.split(",");
-            orderID = Integer.parseInt(arrItemDetail[0].trim());
-            productID = Integer.parseInt(arrItemDetail[1].trim());
-            productName = arrItemDetail[2].trim();
-            quantity = Integer.parseInt(arrItemDetail[3].trim());
+            productID = Integer.parseInt(arrItemDetail[0].trim());
+            productName = arrItemDetail[1].trim();
+            productImage = arrItemDetail[2].trim();
+            categoryName = arrItemDetail[3].trim();
             unitPrice = Double.parseDouble(arrItemDetail[4].trim());
+            quantity = Integer.parseInt(arrItemDetail[5].trim());
 
-            item = new OrderDetail(orderID, productID, productName, unitPrice, quantity);
-            cart.put(orderID, item);
+            item = new Cart(productID, productName, productImage, categoryName, unitPrice, quantity);
+            cart.put(productID, item);
         }
         return cart;
     }
@@ -49,7 +50,7 @@ public class CartUtil {
     }
 
     public void saveCartToCookie(HttpServletRequest request, HttpServletResponse response, String strItemsInCart) {
-        String cookieName = "Cart";
+        String cookieName = "cart";
         Cookie cookieCart = getCookieByName(request, cookieName);
 
         if (cookieCart != null) {
@@ -59,24 +60,22 @@ public class CartUtil {
         }
 
         cookieCart.setMaxAge(43200);
-
         response.addCookie(cookieCart);
     }
 
-    public String convertCartToString(List<OrderDetail> itemsList) {
+    public String convertCartToString(List<Cart> itemsList) {
         StringBuilder strItemsInCart = new StringBuilder();
 
-        for (OrderDetail item : itemsList) {
-            strItemsInCart.append(item.getOrderID()).append(",")
-                    .append(item.getProductID()).append(",")
+        for (Cart item : itemsList) {
+            strItemsInCart.append(item.getProductID()).append(",")
                     .append(item.getProductName()).append(",")
-                    .append(item.getQuantity()).append(",")
-                    .append(item.getUnitPrice()).append("|");
+                    .append(item.getProductImage()).append(",")
+                    .append(item.getCategoryName()).append(",")
+                    .append(item.getUnitPrice()).append(",")
+                    .append(item.getQuantity()).append("|");
         }
 
         Base64.Encoder base64Encoder = Base64.getEncoder();
-        String encodedString = base64Encoder.encodeToString(strItemsInCart.toString().getBytes());
-
-        return encodedString;
+        return base64Encoder.encodeToString(strItemsInCart.toString().getBytes());
     }
 }

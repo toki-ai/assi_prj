@@ -43,7 +43,7 @@
                             <h6 class="mb-3 price">${p.unitPrice}</h6>
                         </div>
                         <div>
-                            <a href="addCart?pid=${p.productID}">Add to cart</a>
+                            <a href="addCart?id=${p.productID}">Add to cart</a>
                         </div>
                     </div>
                 </div>

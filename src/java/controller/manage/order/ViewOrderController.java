@@ -25,8 +25,8 @@ import model.entity.OrderDetail;
  *
  * @author toki
  */
-@WebServlet(name = "ReadReviewController", urlPatterns = {"/reviews"})
-public class ReadReviewController extends HttpServlet {
+@WebServlet(name = "ViewOrderController", urlPatterns = {"/reviews"})
+public class ViewOrderController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

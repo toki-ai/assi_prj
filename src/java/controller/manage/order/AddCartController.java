@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.DAO.ProductDAO;
 import model.entity.Account;
-import model.entity.OrderDetail;
+import model.entity.Cart;
 import model.entity.Product;
 import utils.CartUtil;
 
@@ -22,26 +22,27 @@ public class AddCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String productID = request.getParameter("pid");
+        String productID = request.getParameter("id");
         String message = null;
-        HashMap<Integer, OrderDetail> innerCart = null;
+        HashMap<Integer, Cart> innerCart = null;
         ProductDAO productDAO = new ProductDAO();
         CartUtil cartUtil = new CartUtil();
         
         try {
             HttpSession session = request.getSession();
             Account a = (Account) session.getAttribute("user");
-            innerCart = (HashMap<Integer, OrderDetail>) session.getAttribute(a.getAccountID() + "_cart");
+            innerCart = (HashMap<Integer, Cart>) session.getAttribute(a.getAccountID() + "_cart");
             if (innerCart == null) {
-                innerCart = new HashMap<Integer, OrderDetail>();
+                innerCart = new HashMap<Integer, Cart>();
                 session.setAttribute(a.getAccountID() + "_cart", innerCart);
             }
 
             int pid = Integer.parseInt(productID);
-            OrderDetail currentItem = innerCart.get(pid);
+            Cart currentItem = innerCart.get(pid);
+            
             if (currentItem == null) {
                 Product selectProduct = productDAO.getProductsById(productID);
-                OrderDetail newOrder = new OrderDetail(1, selectProduct.getProductID(), selectProduct.getProductName(), selectProduct.getUnitPrice(), 1);
+                Cart newOrder = new Cart(selectProduct.getProductID(), selectProduct.getProductName(), selectProduct.getProductImage(),selectProduct.getCategoryName(), selectProduct.getUnitPrice(), 1);
                 innerCart.put(selectProduct.getProductID(), newOrder);
                 message = "Added to cart successfully";
             } else {
@@ -49,9 +50,12 @@ public class AddCartController extends HttpServlet {
                 message = "Updated cart successfully";
             }
             session.setAttribute(a.getAccountID() + "_cart", innerCart);
-            List<OrderDetail> orderDetailsList = new ArrayList<>(innerCart.values());
-            String strItemsInCart = cartUtil.convertCartToString(orderDetailsList);
-            cartUtil.saveCartToCookie(request, response, strItemsInCart);
+            
+            
+            List<Cart> cartList = new ArrayList<>(innerCart.values());
+            String cookieCode = cartUtil.convertCartToString(cartList);
+            cartUtil.saveCartToCookie(request, response, cookieCode);
+            
         } catch (NumberFormatException e) {
             message = e.getMessage();
         } catch (Exception e) {
