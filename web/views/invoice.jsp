@@ -4,30 +4,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Order Management</title>
+        <title>Invoice</title>
         <%@include file="layout/fontAndIcon.jsp" %>
         <link rel="stylesheet" href="../assets/invoice.css"/>
     </head>
     <body>
         <%@include file="layout/nav.jsp" %>
         <div style="margin-top: 100px" class="container mt-6 mb-7">
-            <a href="reviews" style="margin-top: 100px">Back</a>
+            <c:if test="${sessionScope.user.type == 2}">
+                <a href="reviews" style="margin-top: 100px">Back</a>
+            </c:if>
+            <c:if test="${sessionScope.user.type == 1}">
+                <a href="ordersAD" style="margin-top: 100px">Back</a>
+            </c:if>  
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-xl-7">
                     <div class="card">
                         <div class="card-body p-5">
-                            <h2>
-                                Hey ${username},
-                            </h2>
-                            <p class="fs-sm">
-                                This is the receipt for a payment of you made to Spacial Themes.
-                            </p>
-
+                            <c:if test="${sessionScope.user.type == 2}">
+                                <h2>
+                                    Hey ${username},
+                                </h2>
+                                <p class="fs-sm">
+                                    This is the receipt for a payment of you made to Spacial Themes.
+                                </p>
+                            </c:if>
+                            <c:if test="${sessionScope.user.type == 1}">
+                                <h2>
+                                    Order #${order.orderID}
+                                </h2>
+                            </c:if>   
                             <div class="border-top border-gray-200 pt-4 mt-4">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="text-muted mb-2">Order No.</div>
-                                        <strong>#${order.orderID}</strong>
+                                        <c:if test="${sessionScope.user.type == 2}">
+                                            <div class="text-muted mb-2">Order No.</div>
+                                            <strong>#${order.orderID}</strong>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.type == 1}">
+                                            <div class="text-muted mb-2">Customer name</div>
+                                            <strong>${customer.contactName}</strong>
+                                        </c:if> 
                                     </div>
                                     <div class="col-md-6 text-md-end">
                                         <div class="text-muted mb-2">Order Date</div>

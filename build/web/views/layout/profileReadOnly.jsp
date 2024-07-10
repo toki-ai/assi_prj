@@ -88,7 +88,7 @@
                             Delete account
                         </a>
                         <a class="button" 
-                           href='view?option=profile'>
+                           href='view?option=editProfile'>
                             Edit information
                         </a>
 

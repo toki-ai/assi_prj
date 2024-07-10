@@ -13,13 +13,16 @@
                        href="accountsAD?option=staff">Staff</a>
                 </li>
             </ul>
-            <form action="searchAcc" class="w-auto py-1" style="margin-left: 100px; max-width: 12rem; display: flex">
+            <form action="searchAcc" class="w-auto py-1" style="margin-left: 200px; max-width: 12rem; display: flex">
                 <input value="${inputSearch}" type="text" class="form-control rounded-0" placeholder="Search" name="inputSearch" aria-label="Search">
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
-
+                <div style="margin-left: 250px; color: white; cursor: pointer">
+                    <i class="fa-solid fa-plus"></i>
+                    <a style="color: white; text-decoration: none" href="view?option=createAccount">Add account</a>
+                </div>
         </div>
     </div>
 </nav>
@@ -65,10 +68,10 @@
                             <h6 class="card-title" style="padding-top: 10px">${customerList[status.index].address}</h6>
                         </td>
                         <td>
-                            <a style="margin: 0 30px" href="detail?id=${p.productID}">
+                            <a style="margin: 0 30px" href="view?option=editAccount&aid=${account.accountID}&cid=${customerList[status.index].customerID}">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a> 
-                            <a href="detail?id=${p.productID}">
+                            <a onclick="return confirmDelete()" href="delete?option=account&aid=${account.accountID}">
                                 <i style="color: red" class="fa-solid fa-trash"></i>
                             </a> 
                         </td>
@@ -90,17 +93,13 @@
                         <td style="width: 150px">
                             <h6 class="card-title" style="padding-top: 10px">${account.password}</h6>
                         </td>
-                        <td style="width: 150px">
-                            <h6 class="card-title" style="padding-top: 10px">${customerList[status.index].phone}</h6>
-                        </td>
-                        <td style="width: 150px">
-                            <h6 class="card-title" style="padding-top: 10px">${customerList[status.index].address}</h6>
-                        </td>
                         <td>
-                            <a style="margin: 0 30px" href="detail?id=${p.productID}">
+                            <a style="margin: 0 30px" 
+                               href="view?option=editAccount&aid=${account.accountID}"
+                               >
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a> 
-                            <a href="detail?id=${p.productID}">
+                            <a href="delete?option=account&aid=${account.accountID}" onclick="return confirmDelete()">
                                 <i style="color: red" class="fa-solid fa-trash"></i>
                             </a> 
                         </td>

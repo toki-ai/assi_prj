@@ -109,9 +109,9 @@ INSERT INTO Orders (CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, S
 
 
 INSERT INTO Orders (CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES
-(1, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '123 Main St'),
-(2, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '456 Elm St'),
-(3, '2024-07-06', '2024-07-07', '2024-07-06', 2.75, '789 Oak St');
+(1, '2024-07-11', '2024-07-12', '2024-07-11', 2.75, '123 Main St'),
+(2, '2024-07-11', '2024-07-12', '2024-07-11', 2.75, '456 Elm St'),
+(3, '2024-07-11', '2024-07-12', '2024-07-11', 2.75, '789 Oak St');
 
 -- Insert data into Order Details table
 INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity) VALUES

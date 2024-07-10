@@ -52,6 +52,28 @@ public class CustomerDAO {
         return null;
     }
     
+    public Customer getCustomerInforByID(String id) {
+        String query = "select * from Customers Where CustomerID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Customer(
+                        rs.getInt("CustomerID"),
+                        rs.getString("Password"),
+                        rs.getString("ContactName"),
+                        rs.getString("Address"),
+                        rs.getString("Phone")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Error get order by order id in DAO " + e.getMessage());
+        }
+        return null;
+    }
+    
     public List<Customer> getCustomerByName(String param) {
         String query = "select * from Customers WHERE ContactName LIKE ?";
         List<Customer> list = new ArrayList<>();
@@ -118,6 +140,18 @@ public class CustomerDAO {
             }
         } catch (Exception e) {
             System.out.println("Error updating customer information: " + e.getMessage());
+        }
+    }
+    
+    public void deleteCustomer(int id) {
+        String query = "DELETE FROM Customers WHERE CustomerID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error delete customer in DAO " + e.getMessage());
         }
     }
 }

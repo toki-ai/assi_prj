@@ -21,6 +21,30 @@ public class OrderDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
+    public List<Order> getAllOrder() {
+        List<Order> list = new ArrayList<>();
+        String query = "SELECT * FROM Orders order by OrderDate DESC";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(
+                        rs.getInt("OrderID"),
+                        rs.getInt("CustomerID"),
+                        rs.getDate("OrderDate"),
+                        rs.getDate("RequiredDate"),
+                        rs.getDate("ShippedDate"),
+                        rs.getDouble("Freight"),
+                        rs.getString("ShipAddress")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Error get all order in DAO " + e.getMessage());
+        }
+        return list;
+    }
+    
     public List<Order> getOrderByUserID(int id) {
         List<Order> list = new ArrayList<>();
         String query = "SELECT * FROM Orders WHERE CustomerID = ? order by OrderDate DESC";

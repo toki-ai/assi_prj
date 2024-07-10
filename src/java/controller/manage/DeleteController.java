@@ -6,12 +6,20 @@ package controller.manage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.DAO.AccountDAO;
+import model.DAO.CustomerDAO;
 import model.DAO.OrderDAO;
+import model.DAO.ProductDAO;
+import model.entity.Account;
+import model.entity.Customer;
+import model.entity.Order;
 
 @WebServlet(name = "DeleteController", urlPatterns = {"/delete"})
 public class DeleteController extends HttpServlet {
@@ -26,13 +34,56 @@ public class DeleteController extends HttpServlet {
                 OrderDAO orderDAO = new OrderDAO();
                 orderDAO.deleteOrderDetail(oid);
                 orderDAO.deleteOrder(oid);
-                response.sendRedirect("reviews");
+                HttpSession session = request.getSession();
+                int role = (int) session.getAttribute("role");
+                if (role == 1) {
+                    response.sendRedirect("ordersAD");
+                } else if (role == 2) {
+                    response.sendRedirect("reviews");
+                }
+
+            }
+        } else if (option.equals("product")) {
+            String pid = request.getParameter("pid");
+            if (pid != null) {
+                ProductDAO productDAO = new ProductDAO();
+                productDAO.deleteProduct(pid);
+                response.sendRedirect("home");
+            }
+        } else if (option.equals("account")) {
+            AccountDAO accountDAO = new AccountDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            String aid = request.getParameter("aid");
+            Account a = accountDAO.getAccountByID(aid);
+            Customer cus = customerDAO.getCustomerInforByName(a.getFullName());
+            String cid = String.valueOf(cus.getCustomerID());
+            if (aid != null) {
+                accountDAO.deleteAccount(aid);
+            }
+            if (cid != null) {
+                OrderDAO orderDAO = new OrderDAO();
+                int cusID = Integer.parseInt(cid);
+                customerDAO.deleteCustomer(cusID);
+                List<Order> list = orderDAO.getOrderByUserID(cusID);
+                for (Order o : list) {
+                    String oid = Integer.toString(o.getOrderID());
+                    orderDAO.deleteOrderDetail(oid);
+                    orderDAO.deleteOrder(oid);
+                }
+            }
+            HttpSession session = request.getSession();
+            int role = (int) session.getAttribute("role");
+            if (role == 1) {
+                response.sendRedirect("accountsAD");
+            } else if (role == 2) {
+                session.removeAttribute("user");
+                session.removeAttribute("role");
+                response.sendRedirect("home");
             }
         }
-
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

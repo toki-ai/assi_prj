@@ -6,11 +6,15 @@ package controller.manage.product;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DAO.ProductSalesDAO;
+import model.entity.ProductSales;
 
 /**
  *
@@ -19,18 +23,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ViewReportADController", urlPatterns = {"/reportsAD"})
 public class ViewReportADController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String startDateStr = request.getParameter("startDate");
+        String endDateStr = request.getParameter("endDate");
+        if(startDateStr != null && endDateStr != null){
+            ProductSalesDAO productsalesDAO = new ProductSalesDAO();
+            Date startDate = java.sql.Date.valueOf(startDateStr);
+            Date endDate = java.sql.Date.valueOf(endDateStr);
+            
+            List<ProductSales> productList = productsalesDAO.getProductSalesByDate(startDate, endDate);
+            request.setAttribute("productList", productList);
+            request.setAttribute("startDate", startDate); 
+            request.setAttribute("endDate", endDate);
+            request.getRequestDispatcher("views/report.jsp").forward(request, response);
+        } 
         request.getRequestDispatcher("views/report.jsp").forward(request, response);
     }
 

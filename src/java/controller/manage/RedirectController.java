@@ -13,26 +13,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.DAO.AccountDAO;
 import model.DAO.CategoryDAO;
 import model.DAO.CustomerDAO;
+import model.DAO.ProductDAO;
 import model.DAO.SupplierDAO;
 import model.entity.Account;
 import model.entity.Category;
 import model.entity.Customer;
+import model.entity.Product;
 import model.entity.Supplier;
 
 /**
  *
  * @author toki
  */
-@WebServlet(name = "ViewEditController", urlPatterns = {"/view"})
-public class ViewEditController extends HttpServlet {
+@WebServlet(name = "RedirectController", urlPatterns = {"/view"})
+public class RedirectController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String option = request.getParameter("option");
-        if ("profile".equals(option)) {
+        if ("editProfile".equals(option)) {
             CustomerDAO customerDAO = new CustomerDAO();
             HttpSession session = request.getSession();
             Account a = (Account) session.getAttribute("user");
@@ -48,7 +51,6 @@ public class ViewEditController extends HttpServlet {
                 request.getRequestDispatcher("views/error.jsp").forward(request, response);
                 return;
             }
-
             request.setAttribute("account", a);
             request.setAttribute("customer", b);
             String phone = b.getPhone();
@@ -57,14 +59,42 @@ public class ViewEditController extends HttpServlet {
             }
             request.setAttribute("phone", phone);
             request.getRequestDispatcher("views/profile.jsp").forward(request, response);
-        }else if("product".equals(option)) {
+        }
+        else if ("editAccount".equals(option)) {
+            AccountDAO accountDAO = new AccountDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            String aid = request.getParameter("aid");
+            Account a = accountDAO.getAccountByID(aid);
+            Customer b = customerDAO.getCustomerInforByName(a.getFullName());
+            request.setAttribute("account", a);
+            request.setAttribute("customer", b);
+            String phone = b.getPhone();
+            if (phone != null && phone.startsWith("555-")) {
+                phone = phone.substring(4);
+            }
+            request.setAttribute("phone", phone);
+            request.getRequestDispatcher("views/editAccount.jsp").forward(request, response);
+        }
+        else if("createProduct".equals(option)) {
             CategoryDAO categoryDAO = new CategoryDAO();
             List<Category> listC = categoryDAO.getAllCategory();
             request.setAttribute("listCategory", listC);
             SupplierDAO supplierDAO = new SupplierDAO();
             List<Supplier> listS = supplierDAO.getAllSupplier();
             request.setAttribute("listSupplier", listS);
-            request.getRequestDispatcher("views/product.jsp").forward(request, response);
+            request.getRequestDispatcher("views/createProduct.jsp").forward(request, response);
+        }
+        else if("createAccount".equals(option)) {
+            request.getRequestDispatcher("views/createAccount.jsp").forward(request, response);
+        }
+        else if("createOrder".equals(option)){
+            ProductDAO productDAO = new ProductDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            List<Customer> customers = customerDAO.getAllCustomer();
+            List<Product> products = productDAO.getAllProducts();
+            request.setAttribute("products", products);
+            request.setAttribute("customers", customers);
+            request.getRequestDispatcher("views/createOrder.jsp").forward(request, response);
         }
     }
 

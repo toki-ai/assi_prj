@@ -16,5 +16,10 @@
             </div>
         </main>
         <%@include file="layout/footer.jsp" %>
+        <script>
+            function confirmDelete() {
+                return confirm('Are you sure you want to delete this product?');
+            }
+        </script>
     </body>
 </html>

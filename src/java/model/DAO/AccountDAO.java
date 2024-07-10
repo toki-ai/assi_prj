@@ -83,6 +83,28 @@ public class AccountDAO {
         return null;
     }
     
+    public Account getAccountByID(String id) {
+        String query = "select * from Account where AccountID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(
+                        rs.getInt("AccountID"),
+                        rs.getString("UserName"),
+                        rs.getString("Password"),
+                        rs.getString("FullName"),
+                        rs.getInt("Type")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Error in get acc by username and password " + e.getMessage());
+        }
+        return null;
+    }
+    
     public List<Account> getAccountByNameOrID(String param) {
         String query = "select * from Account WHERE UserName LIKE ? OR AccountID LIKE ?";
         List<Account> list = new ArrayList<>();
@@ -144,6 +166,21 @@ public class AccountDAO {
             System.out.println("Error in create account " + e.getMessage());
         }
     }
+    
+    public void createAccountAD(String username, String password, String fullname) {
+        String query = "INSERT INTO Account (UserName, Password, FullName, Type) VALUES\n"
+                + "(?, ?, ?, 1)";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, fullname);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error in create account " + e.getMessage());
+        }
+    }
 
     public void updateAccountInfo(String accountID, String newUserName, String newPassword, String newFullName, int newType) {
         String query = "UPDATE Account SET UserName = ?, Password = ?, FullName = ?, Type = ? WHERE AccountID = ?";
@@ -164,6 +201,19 @@ public class AccountDAO {
             }
         } catch (Exception e) {
             System.out.println("Error updating account information: " + e.getMessage());
+        }
+    }
+    
+    public void deleteAccount(String id) {
+        String query = "DELETE FROM Account\n"
+                + "WHERE AccountID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error delete account in DAO " + e.getMessage());
         }
     }
 }

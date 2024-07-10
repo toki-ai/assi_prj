@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.DAO.AccountDAO;
+import model.DAO.CategoryDAO;
 import model.DAO.CustomerDAO;
+import model.DAO.ProductDAO;
+import model.DAO.SupplierDAO;
 import model.entity.Account;
 import model.entity.Customer;
 import model.entity.OrderDetail;
+import model.entity.Product;
 
 @WebServlet(name = "UpdateController", urlPatterns = {"/update"})
 public class UpdateController extends HttpServlet {
@@ -26,22 +30,7 @@ public class UpdateController extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
 
         if (option.equals("order")) {
-//            HttpSession session = request.getSession();
-//            Account a = (Account) session.getAttribute("user");
-//            Customer b = customerDAO.getCustomerInforByName(a.getFullName());
-//            if (a != null) {
-//                HashMap<Integer, OrderDetail> cart = (HashMap<Integer, OrderDetail>) session.getAttribute(a.getAccountID() + "_cart");
-//                if (cart != null) {
-//                    request.setAttribute("cartSize", cart.size());
-//                } else {
-//                    request.setAttribute("cartSize", 0);
-//                }
-//            } else {accountID
-//                request.setAttribute("cartSize", 0);
-//            }
-//            request.setAttribute("account", a);
-//            request.setAttribute("cusomer", b);
-//            request.getRequestDispatcher("views/editOrderDetail.jsp").forward(request, response);
+
         } else if (option.equals("profile")) {
             String accountID = request.getParameter("accountID");
             String customerID = request.getParameter("customerID");
@@ -54,13 +43,41 @@ public class UpdateController extends HttpServlet {
 
             if (!password.equals(rePassword)) {
                 request.setAttribute("error", "Passwords do not match!");
-                request.getRequestDispatcher("view?option=profile").forward(request, response);
+                request.getRequestDispatcher("view?option=editProfile").forward(request, response);
                 return;
             }
             try {
                 accountDAO.updateAccountInfo(accountID, userName, password, fullName, 2);
                 customerDAO.updateCustomerInfor(customerID, password, fullName, address, phone);
                 request.getRequestDispatcher("infor").forward(request, response);
+            } catch (Exception e) {
+                request.setAttribute("error", e.getMessage());
+                request.getRequestDispatcher("view?option=profile").forward(request, response);
+            }
+        } else if (option.equals("account")) {
+            String accountID = request.getParameter("accountID");
+            String customerID = request.getParameter("customerID");
+            String fullName = request.getParameter("fullName");
+            String userName = request.getParameter("userName");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            String password = request.getParameter("password");
+            String rePassword = request.getParameter("re-password");
+            String type = request.getParameter("type");
+
+            if (!password.equals(rePassword)) {
+                request.setAttribute("error", "Passwords do not match!");
+                request.getRequestDispatcher("view?option=editAccount").forward(request, response);
+                return;
+            }
+            try {
+                if ("1".equals(type)) {
+                    accountDAO.updateAccountInfo(accountID, userName, password, fullName, 1);
+                } else if ("2".equals(type)) {
+                    accountDAO.updateAccountInfo(accountID, userName, password, fullName, 2);
+                }
+                customerDAO.updateCustomerInfor(customerID, password, fullName, address, phone);
+                request.getRequestDispatcher("accountsAD").forward(request, response);
             } catch (Exception e) {
                 request.setAttribute("error", e.getMessage());
                 request.getRequestDispatcher("view?option=profile").forward(request, response);

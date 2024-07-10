@@ -115,4 +115,35 @@ public class ProductDAO {
         }
         return null;
     }
+    
+    public void createProducts(String ProductName, int supplierID, int categoryID, String quantityPerUnit, double unitPrice, String productImage ) {
+        String query = "INSERT INTO Products (ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPrice, ProductImage) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, ProductName);
+            ps.setInt(2, supplierID);
+            ps.setInt(3,categoryID); 
+            ps.setString(4, quantityPerUnit);
+            ps.setDouble(5, unitPrice);
+            ps.setString(6, productImage);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error create product in DAO " + e.getMessage());
+        }
+    }
+    
+    public void deleteProduct(String id) {
+        String query = "DELETE FROM Products\n"
+                + "WHERE ProductID = ?";
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error delete products in DAO " + e.getMessage());
+        }
+    }
 }

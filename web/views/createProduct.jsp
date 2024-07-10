@@ -20,7 +20,7 @@
             Add Products
         </h1>
         <div class="container1">
-            <form action="create" method="POST">
+            <form action="create?option=product" method="POST">
                 <div class="image-upload">
                     <label for="file-input">
                         <img id="preview-image" src="placeholder-image.png" alt="Upload Image">

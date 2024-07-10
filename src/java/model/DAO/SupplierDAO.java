@@ -41,4 +41,21 @@ public class SupplierDAO {
         } 
         return list;
     }
+    
+    public int getIDSupplierByName(String name){
+        int id;
+        String query = "SELECT * FROM Suppliers WHERE CompanyName = ?" ;
+        try {
+            cnn = new DBUtils().getConnection();
+            ps = cnn.prepareStatement(query);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                return rs.getInt("SupplierID");
+            }   
+        } catch (Exception e) {
+            System.out.println("Error get id supplier  by name in DAO " + e.getMessage());
+        } 
+        return 0;
+    }
 }

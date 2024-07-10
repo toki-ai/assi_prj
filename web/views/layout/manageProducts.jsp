@@ -25,7 +25,7 @@
             </form>
                 <div style="margin-left: 200px; color: white; cursor: pointer">
                     <i class="fa-solid fa-plus"></i>
-                    <a style="color: white; text-decoration: none" href="view?option=product">Add products</a>
+                    <a style="color: white; text-decoration: none" href="view?option=createProduct">Add products</a>
                 </div>
         </div>
     </div>
@@ -59,13 +59,10 @@
                         <h6 class="col-lg-2 price">${p.unitPrice}</h6>
                     </td>
                     <td>
-                        <a href="detail?id=${p.productID}">
-                            <i style="color: gray" class="fa-solid fa-eye"></i>
-                        </a> 
                         <a style="margin: 0 30px" href="detail?id=${p.productID}">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a> 
-                        <a href="detail?id=${p.productID}">
+                        <a href="delete?option=product&pid=${p.productID}" onclick="return confirmDelete()">
                             <i style="color: red" class="fa-solid fa-trash"></i>
                         </a> 
                     </td>

@@ -26,7 +26,7 @@
                         <a class="nav-link " href="accountsAD">Manage Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="reviews">Manage Orders</a>
+                        <a class="nav-link " href="ordersAD">Manage Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="reportsAD">Report</a>
