@@ -50,11 +50,12 @@ public class ViewCartController extends HttpServlet {
             }
             request.setAttribute("cart", cartValue);
         } catch (Exception e) {
-            request.setAttribute("mess", e.getMessage());
+            request.setAttribute("message", e.getMessage());
             log("ViewCartController has error: " + e.getMessage());
-        } finally {
-            request.getRequestDispatcher("views/cart.jsp").forward(request, response);
         }
+        
+            request.getRequestDispatcher("views/cart.jsp").forward(request, response);
+        
     }
 
     @Override

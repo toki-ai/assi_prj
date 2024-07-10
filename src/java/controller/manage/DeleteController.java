@@ -13,23 +13,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DAO.OrderDAO;
 
-/**
- *
- * @author toki
- */
 @WebServlet(name = "DeleteController", urlPatterns = {"/delete"})
 public class DeleteController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String oid = request.getParameter("oid");
-        if (oid != null) {
-            OrderDAO orderDAO = new OrderDAO();
-            orderDAO.deleteOrderDetail(oid);
-            orderDAO.deleteOrder(oid);
-            response.sendRedirect("reviews");
+        String option = request.getParameter("option");
+        if (option.equals("order")) {
+            String oid = request.getParameter("oid");
+            if (oid != null) {
+                OrderDAO orderDAO = new OrderDAO();
+                orderDAO.deleteOrderDetail(oid);
+                orderDAO.deleteOrder(oid);
+                response.sendRedirect("reviews");
+            }
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

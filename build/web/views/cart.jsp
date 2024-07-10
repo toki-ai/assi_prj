@@ -18,7 +18,7 @@
                         <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                             <div class="card-body p-0">
                                 <div class="px-5 py-2">
-                                    <h6 class="mb-0"><a href="#!" class="text-body"><i
+                                    <h6 class="mb-0"><a href="home" class="text-body"><i
                                                 class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
                                 </div>
                                 <div class="row g-0" style="min-height: 500px;">
@@ -42,12 +42,12 @@
                                                         <h6 class="mb-0">${c.productName}</h6>
                                                     </div>
                                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                        <a class="btn btn-link px-2" href="updateCart?mid=${c.productID}">
+                                                        <a class="btn btn-link px-2" href="updateCart?mid=${c.productID}&quantity=${c.quantity}">
                                                             <i class="fas fa-minus"></i>
                                                         </a>
                                                         <input min="0" name="quantity" value="${c.quantity}" type="number" 
                                                                style="width: 50px; height: 40px; border-radius: 5px; text-align: center;"/>
-                                                        <a class="btn btn-link px-2" href="updateCart?pid=${c.productID}">
+                                                        <a class="btn btn-link px-2" href="updateCart?pid=${c.productID}&quantity=${c.quantity}">
                                                             <i class="fas fa-plus"></i>
                                                         </a>
                                                     </div>
@@ -84,8 +84,8 @@
                                                 <h5 id="totalPrice">$ ${itemTotal}</h5>                                             
                                             </div>
                                             <div data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
-                                                    data-mdb-ripple-color="dark">
-                                                <a href="#" style="font-style: none; color: white">Confirm</a></div>
+                                                 data-mdb-ripple-color="dark">
+                                                <a id="createOrderLink" href="create?option=order&freight=5" style="font-style: none; color: white">Create new Order</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,18 +99,23 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const shippingOptions = document.getElementById('shippingOptions');
+                const createOrderLink = document.getElementById('createOrderLink');
                 const totalPriceElement = document.getElementById('totalPrice');
-                const itemTotal = parseFloat(totalPriceElement.textContent.replace('$', ''));
+                let itemTotal = parseFloat(totalPriceElement.textContent.replace('$', ''));
+                let currentFreight = parseFloat(shippingOptions.value);
 
-                const defaultShippingCost = parseFloat(shippingOptions.value);
-                let currentTotal = itemTotal + defaultShippingCost;
-                totalPriceElement.textContent = '$' + currentTotal.toFixed(2);
+                const updateDefaultValues = () => {
+                    const baseHref = 'create?option=order&freight=';
+                    createOrderLink.href = baseHref + currentFreight;
+                    const newTotal = itemTotal + currentFreight;
+                    totalPriceElement.textContent = '$' + newTotal.toFixed(2);
+                };
 
+                updateDefaultValues();
 
                 shippingOptions.addEventListener('change', function () {
-                    const selectedValue = parseFloat(this.value);
-                    const newTotal = itemTotal + selectedValue;
-                    totalPriceElement.textContent = '$' + newTotal.toFixed(2);
+                    currentFreight = parseFloat(this.value);
+                    updateDefaultValues();
                 });
             });
         </script>

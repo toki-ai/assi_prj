@@ -17,11 +17,16 @@
                 </c:forEach>
             </ul>
 
-            <!-- Search -->
-            <form class="w-auto py-1" style="margin-left: 100px; max-width: 12rem;">
-                <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+            <form action="search" class="w-auto py-1" style="margin-left: 100px; max-width: 12rem; display: flex">
+                <input value="${inputSearch}" type="text" class="form-control rounded-0" placeholder="Search" name="inputSearch" aria-label="Search">
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </form>
-
+                <div style="margin-left: 200px; color: white; cursor: pointer">
+                    <i class="fa-solid fa-plus"></i>
+                    <a style="color: white; text-decoration: none" href="view?option=product">Add products</a>
+                </div>
         </div>
     </div>
 </nav>

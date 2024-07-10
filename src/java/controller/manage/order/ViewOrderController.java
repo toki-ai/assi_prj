@@ -7,6 +7,7 @@ package controller.manage.order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +37,16 @@ public class ViewOrderController extends HttpServlet {
         CustomerDAO customerDAO = new CustomerDAO();
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("user");
+        if (a != null) {
+            HashMap<Integer, OrderDetail> cart = (HashMap<Integer, OrderDetail>) session.getAttribute(a.getAccountID() + "_cart");
+            if (cart != null) {
+                request.setAttribute("cartSize", cart.size());
+            } else {
+                request.setAttribute("cartSize", 0);
+            }
+        } else {
+            request.setAttribute("cartSize", 0);
+        }
         if (params != null) {
             List<OrderDetail> listD = orderDAO.getOrderDetailOrderID(params);
             Customer customer = customerDAO.getCustomerInforByName(a.getFullName()); 

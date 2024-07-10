@@ -1,87 +1,72 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.manage.order;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.entity.Account;
+import model.entity.Cart;
 
-/**
- *
- * @author toki
- */
 @WebServlet(name = "UpdateCartController", urlPatterns = {"/updateCart"})
 public class UpdateCartController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateCartController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateCartController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String message = null, itemId;
+        int newQuantity;
+        Cart item = null;
+        HashMap<Integer, Cart> cart = null;
+        try {
+            itemId = request.getParameter("pid");
+            newQuantity = Integer.parseInt(request.getParameter("quantity"));
+            if (itemId != null) {
+                newQuantity = newQuantity + 1;
+            } else {
+                itemId = request.getParameter("mid");
+                newQuantity = newQuantity -1;
+            }
+            if (itemId != null) {
+                HttpSession session = request.getSession();
+                Account a = (Account) session.getAttribute("user");
+                cart = (HashMap<Integer, Cart>) session.getAttribute(a.getAccountID() + "_cart");
+
+                if (newQuantity == 0) {
+                    request.getRequestDispatcher("removeCart?id=" + itemId).forward(request, response);
+                    return;
+                }
+
+                item = cart.get(Integer.parseInt(itemId));
+                item.setQuantity(newQuantity);
+                session.setAttribute(a.getAccountID() + "_cart", cart);
+                message = "Your cart has been updated successfully.";
+                request.setAttribute("message", message);
+            }
+        } catch (Exception e) {
+            log("UpdateCartController has error: " + e.getMessage());
+            message = e.getMessage();
         }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("viewCart").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Update Cart Controller";
+    }
 }

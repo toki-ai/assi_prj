@@ -1,47 +1,70 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.manage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.DAO.AccountDAO;
+import model.DAO.CustomerDAO;
+import model.entity.Account;
+import model.entity.Customer;
+import model.entity.OrderDetail;
 
-/**
- *
- * @author toki
- */
 @WebServlet(name = "UpdateController", urlPatterns = {"/update"})
 public class UpdateController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String option = request.getParameter("option");
+        CustomerDAO customerDAO = new CustomerDAO();
+        AccountDAO accountDAO = new AccountDAO();
+
+        if (option.equals("order")) {
+//            HttpSession session = request.getSession();
+//            Account a = (Account) session.getAttribute("user");
+//            Customer b = customerDAO.getCustomerInforByName(a.getFullName());
+//            if (a != null) {
+//                HashMap<Integer, OrderDetail> cart = (HashMap<Integer, OrderDetail>) session.getAttribute(a.getAccountID() + "_cart");
+//                if (cart != null) {
+//                    request.setAttribute("cartSize", cart.size());
+//                } else {
+//                    request.setAttribute("cartSize", 0);
+//                }
+//            } else {accountID
+//                request.setAttribute("cartSize", 0);
+//            }
+//            request.setAttribute("account", a);
+//            request.setAttribute("cusomer", b);
+//            request.getRequestDispatcher("views/editOrderDetail.jsp").forward(request, response);
+        } else if (option.equals("profile")) {
+            String accountID = request.getParameter("accountID");
+            String customerID = request.getParameter("customerID");
+            String fullName = request.getParameter("fullName");
+            String userName = request.getParameter("userName");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            String password = request.getParameter("password");
+            String rePassword = request.getParameter("re-password");
+
+            if (!password.equals(rePassword)) {
+                request.setAttribute("error", "Passwords do not match!");
+                request.getRequestDispatcher("view?option=profile").forward(request, response);
+                return;
+            }
+            try {
+                accountDAO.updateAccountInfo(accountID, userName, password, fullName, 2);
+                customerDAO.updateCustomerInfor(customerID, password, fullName, address, phone);
+                request.getRequestDispatcher("infor").forward(request, response);
+            } catch (Exception e) {
+                request.setAttribute("error", e.getMessage());
+                request.getRequestDispatcher("view?option=profile").forward(request, response);
+            }
         }
     }
 

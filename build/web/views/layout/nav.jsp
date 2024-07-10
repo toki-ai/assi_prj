@@ -20,16 +20,16 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" style='margin-left: 40px'>           
                 <c:if test="${sessionScope.role == 1}">
                     <li class="nav-item active">
-                        <a class="nav-link " href="manage/products">Manage Products</a>
+                        <a class="nav-link " href="home">Manage Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="manage/accounts">Manage Accounts</a>
+                        <a class="nav-link " href="accountsAD">Manage Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="manage/orders">Manage Orders</a>
+                        <a class="nav-link " href="reviews">Manage Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="manage/reports">Report</a>
+                        <a class="nav-link " href="reportsAD">Report</a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.role == 2}">
@@ -37,7 +37,7 @@
                         <a class="nav-link " href="home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Profile</a>
+                        <a class="nav-link" href="infor">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="reviews">Reviews</a>

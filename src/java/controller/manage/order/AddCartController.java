@@ -27,7 +27,7 @@ public class AddCartController extends HttpServlet {
         HashMap<Integer, Cart> innerCart = null;
         ProductDAO productDAO = new ProductDAO();
         CartUtil cartUtil = new CartUtil();
-        
+
         try {
             HttpSession session = request.getSession();
             Account a = (Account) session.getAttribute("user");
@@ -36,13 +36,12 @@ public class AddCartController extends HttpServlet {
                 innerCart = new HashMap<Integer, Cart>();
                 session.setAttribute(a.getAccountID() + "_cart", innerCart);
             }
-
             int pid = Integer.parseInt(productID);
             Cart currentItem = innerCart.get(pid);
-            
+
             if (currentItem == null) {
                 Product selectProduct = productDAO.getProductsById(productID);
-                Cart newOrder = new Cart(selectProduct.getProductID(), selectProduct.getProductName(), selectProduct.getProductImage(),selectProduct.getCategoryName(), selectProduct.getUnitPrice(), 1);
+                Cart newOrder = new Cart(selectProduct.getProductID(), selectProduct.getProductName(), selectProduct.getProductImage(), selectProduct.getCategoryName(), selectProduct.getUnitPrice(), 1);
                 innerCart.put(selectProduct.getProductID(), newOrder);
                 message = "Added to cart successfully";
             } else {
@@ -50,12 +49,10 @@ public class AddCartController extends HttpServlet {
                 message = "Updated cart successfully";
             }
             session.setAttribute(a.getAccountID() + "_cart", innerCart);
-            
-            
+
             List<Cart> cartList = new ArrayList<>(innerCart.values());
             String cookieCode = cartUtil.convertCartToString(cartList);
             cartUtil.saveCartToCookie(request, response, cookieCode);
-            
         } catch (NumberFormatException e) {
             message = e.getMessage();
         } catch (Exception e) {

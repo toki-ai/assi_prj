@@ -1,11 +1,13 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.entity.Cart;
 
 public class CartUtil {
@@ -77,5 +79,26 @@ public class CartUtil {
 
         Base64.Encoder base64Encoder = Base64.getEncoder();
         return base64Encoder.encodeToString(strItemsInCart.toString().getBytes());
+    }
+    
+    public void removeAllItemsFromCookie(HttpServletRequest request, HttpServletResponse response) {
+        String cookieName = "cart";
+        Cookie cookieCart = getCookieByName(request, cookieName);
+        if (cookieCart != null) {
+            cookieCart.setMaxAge(0); 
+            response.addCookie(cookieCart);
+        }
+    }
+
+    public void removeItemFromCookie(HttpServletRequest request, HttpServletResponse response, int productId) {
+        String cookieName = "cart";
+        Cookie cookieCart = getCookieByName(request, cookieName);
+
+        if (cookieCart != null) {
+            HashMap<Integer, Cart> cartMap = getCartFromCookie(cookieCart);
+            cartMap.remove(productId);
+            String strItemsInCart = convertCartToString(new ArrayList<>(cartMap.values()));
+            saveCartToCookie(request, response, strItemsInCart);
+        }
     }
 }

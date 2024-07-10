@@ -20,7 +20,7 @@
                                 Hey ${username},
                             </h2>
                             <p class="fs-sm">
-                                This is the receipt for a payment of <strong>$312.00</strong> (USD) you made to Spacial Themes.
+                                This is the receipt for a payment of you made to Spacial Themes.
                             </p>
 
                             <div class="border-top border-gray-200 pt-4 mt-4">
@@ -104,15 +104,22 @@
                                 </div>
                             </div>
                         </div>
-                        <c:set var="orderTimestamp" value="${order.shippedDate.time}" />
+                        <c:set var="orderTimestamp" value="${order.requiredDate.time}" />
                         <c:set var="currentTimestamp" value="${currentDate.time}" />
-                        <c:if test="${orderTimestamp >= currentTimestamp}">
-                            <div style="height: 50px; width: 100%">
-                                <a href="delete?oid=${order.orderID}">Cancel this order</a>
-                                <button>Edit this order</button>
+                        <c:if test="${order.requiredDate.time >= currentDate.time}">
+                            <div style="height: 50px; width: 100%; display: flex; justify-content: space-around">
+                                <a style='color: white; display: inline-block; background-color: red; width: 150px; height: 40px; margin-bottom: 20px; text-align: center; padding: 5px; border-radius: 5px'
+                                   href="delete?option=order&oid=${order.orderID}"
+                                   onclick="return confirmDelete()">
+                                    Cancel this order
+                                </a>
+                                <a style='color: white; display: inline-block; background-color: green; width: 150px; height: 40px; margin-bottom: 20px; text-align: center; padding: 5px; border-radius: 5px' 
+                                   href="view?option=order&oid=${order.orderID}">
+                                    Edit this order
+                                </a>
                             </div>
                         </c:if>
-                        <c:if test="${orderTimestamp < currentTimestamp}">
+                        <c:if test="${order.requiredDate.time < currentDate.time}">
                             <div style="height: 50px; width: 100%; background-color: green; color: white; text-align: center; padding-top: 15px">
                                 This order competed. 
                             </div>
@@ -121,5 +128,10 @@
                 </div>
             </div>
         </div>
+        <script>
+            function confirmDelete() {
+                return confirm('Are you sure you want to delete this order?');
+            }
+        </script>
     </body>
 </html>

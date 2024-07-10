@@ -118,7 +118,7 @@ public class AuthFilter implements Filter {
             }
         } else {
             int role = (int) session.getAttribute("role");
-            if (role != 1 && (path.contains("/admin") || path.contains("/manage"))) {
+            if (role != 1 && (path.contains("AD"))) {
                 res.sendRedirect("home");
                 return;
             }
