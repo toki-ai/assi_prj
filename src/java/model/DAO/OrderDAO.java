@@ -196,19 +196,8 @@ public class OrderDAO {
         }
     }
     
-    public void updateOrder(){
-        String query = "INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity) VALUES\n"
-                + "(?, ?, ?, ?)";
-        try {
-            cnn = new DBUtils().getConnection();
-            ps = cnn.prepareStatement(query);
-//            ps.setInt(1, orderID);
-//            ps.setInt(2, productID);
-//            ps.setDouble(3, unitPrice);
-//            ps.setInt(4, quantity);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error insert orderDetail in DAO " + e.getMessage());
-        }
+    public static void main(String[] args) {
+        OrderDAO o = new OrderDAO();
+        o.createOrderDetail(9, 1, 12, 1);
     }
 }

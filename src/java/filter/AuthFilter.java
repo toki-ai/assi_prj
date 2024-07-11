@@ -112,7 +112,7 @@ public class AuthFilter implements Filter {
         String path = req.getRequestURI();
 
         if (session == null || session.getAttribute("user") == null) {
-            if (!path.contains("login.jsp") && !path.contains("signup.jsp") && !path.contains("home.jsp") && !path.contains("/login") && !path.contains("/home") && !path.contains("/signup")) {
+            if (!path.contains("login.jsp") && !path.contains("signup.jsp") && !path.contains("home.jsp") && !path.contains("/login") && !path.contains("/load") && !path.contains("/home") && !path.contains("/signup")) {
                 res.sendRedirect("home");
                 return;
             }

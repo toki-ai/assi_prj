@@ -27,10 +27,9 @@
 <!-- Products -->
 <section>
     <div class="text-center">
-        <div class="row">
-            <div style="color: black; ${listProducts == null ? "display: block" : "display: none"}">None</div>
+        <div class="row" id="content">
             <c:forEach items="${listProducts}" var="p">
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="product col-lg-3 col-md-6 mb-4">
                     <div class="card">                                 
                         <img src="${p.productImage}" style="height: 200px; object-fit: cover;" class="w-100"/>
                         <div class="card-body" class="w-100">
@@ -51,25 +50,3 @@
         </div>
     </div>
 </section>
-
-<!-- Pagination -->
-<nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-    <ul class="pagination">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>  
-<!-- Pagination -->  

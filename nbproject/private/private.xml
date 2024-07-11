@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/PRJ/FindingNemo/src/java/controller/manage/CreateController.java</file>
             <file>file:/D:/PRJ/FindingNemo/web/views/report.jsp</file>
-            <file>file:/D:/PRJ/FindingNemo/src/java/model/DAO/ProductSalesDAO.java</file>
-            <file>file:/D:/PRJ/FindingNemo/src/java/controller/manage/product/ViewReportADController.java</file>
-            <file>file:/D:/PRJ/FindingNemo/src/java/model/entity/ProductSales.java</file>
+            <file>file:/D:/PRJ/FindingNemo/src/java/model/DAO/OrderDAO.java</file>
+            <file>file:/D:/PRJ/FindingNemo/web/views/layout/footer.jsp</file>
+            <file>file:/D:/PRJ/FindingNemo/web/views/layout/manageAccount.jsp</file>
+            <file>file:/D:/PRJ/FindingNemo/web/views/account.jsp</file>
+            <file>file:/D:/PRJ/FindingNemo/web/views/invoice.jsp</file>
+            <file>file:/D:/PRJ/FindingNemo/src/java/controller/web/LoadController.java</file>
         </group>
     </open-files>
 </project-private>

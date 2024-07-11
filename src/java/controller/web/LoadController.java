@@ -41,11 +41,23 @@ public class LoadController extends HttpServlet {
         }
         ProductDAO productDAO = new ProductDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
-
-        List<Product> listP = productDAO.getAllProducts();
+        if (a != null) {
+            int role = a.getType();     
+            if (role == 1) {
+                List<Product> listP = productDAO.getAllProducts();
+                request.setAttribute("listProducts", listP);
+            }if(role == 2){
+                List<Product> listP = productDAO.getTop3Product();
+                request.setAttribute("listProducts", listP);
+            }
+        }
+        else{
+            List<Product> listP = productDAO.getTop3Product();
+            request.setAttribute("listProducts", listP);
+        }
         List<Category> listC = categoryDAO.getAllCategory();
 
-        request.setAttribute("listProducts", listP);
+        
         request.setAttribute("listCategory", listC);
         request.getRequestDispatcher("views/homepage.jsp").forward(request, response);
     }

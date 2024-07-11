@@ -30,7 +30,9 @@ public class CreateController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String option = request.getParameter("option");
-        if (option.equals("order")) {
+        if 
+            (option.equals("order")) 
+        {
             OrderDAO orderDAO = new OrderDAO();
             CustomerDAO customerDAO = new CustomerDAO();
             HashMap<Integer, Cart> cart = null;
@@ -62,7 +64,10 @@ public class CreateController extends HttpServlet {
                 request.setAttribute("message", "Don't have products to create order.");
                 request.getRequestDispatcher("viewCart").forward(request, response);
             }
-        } else if (option.equals("orderDetail")) {
+        } 
+        else if 
+                (option.equals("orderDetail")) 
+        {
             OrderDAO orderDAO = new OrderDAO();
             CustomerDAO customerDAO = new CustomerDAO();
             String cid = request.getParameter("customerID");
@@ -82,17 +87,19 @@ public class CreateController extends HttpServlet {
                     Date requiredDate = cal.getTime();
                     int oid = orderDAO.createOrder(cus.getCustomerID(), currentDate, requiredDate, currentDate, Double.parseDouble(freight), cus.getAddress());
                     for (int i = 0; i < itemIds.length; i++) {
-                        String itemId = itemIds[i];
-                        String quantity = quantities[i];
-                        Product p = productDAO.getProductsById(itemId);
-                        orderDAO.createOrderDetail(oid, Integer.parseInt(itemId), p.getUnitPrice(), Integer.parseInt(quantity));
+                        int itemId = Integer.parseInt(itemIds[i]);
+                        int quantity = Integer.parseInt(quantities[i]);
+                        Product p = productDAO.getProductsById(itemIds[i]);
+                        orderDAO.createOrderDetail(oid, itemId, p.getUnitPrice(), quantity);
                     }
                 }
                 response.sendRedirect("ordersAD");
             }
             response.sendRedirect("home");
 
-        } else if (option.equals("product")) {
+        } else if 
+                (option.equals("product")) 
+        {
             String productName = request.getParameter("productName");
             String supplierName = request.getParameter("supplierName");
             String categoryName = request.getParameter("categoryName");
@@ -110,7 +117,10 @@ public class CreateController extends HttpServlet {
                 response.sendRedirect("home");
             }
             response.sendRedirect("view?option=product");
-        } else if (option.equals("account")) {
+        } 
+        else if 
+                (option.equals("account")) 
+        {
             String fullName = request.getParameter("fullName");
             String userName = request.getParameter("userName");
             String phone = request.getParameter("phone");

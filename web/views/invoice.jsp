@@ -130,10 +130,10 @@
                                    onclick="return confirmDelete()">
                                     Cancel this order
                                 </a>
-                                <a style='color: white; display: inline-block; background-color: green; width: 150px; height: 40px; margin-bottom: 20px; text-align: center; padding: 5px; border-radius: 5px' 
+<!--                                <a style='color: white; display: inline-block; background-color: green; width: 150px; height: 40px; margin-bottom: 20px; text-align: center; padding: 5px; border-radius: 5px' 
                                    href="view?option=order&oid=${order.orderID}">
                                     Edit this order
-                                </a>
+                                </a>-->
                             </div>
                         </c:if>
                         <c:if test="${order.requiredDate.time < currentDate.time}">

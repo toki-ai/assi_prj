@@ -1,6 +1,5 @@
-  <footer class="text-center text-white mt-4" style="background-color: #607D8B">
+  <footer class="text-center text-white mt-4" style="background-color: #ffa500">
 
-            <!--Call to action-->
             <div class="pt-4 pb-2">
                 <a class="btn btn-outline-white footer-cta mx-2" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank" role="button">Download MDB
                     <i class="fas fa-download ms-2"></i>
@@ -14,10 +13,7 @@
             <hr class="text-dark">
 
             <div class="container">
-                <!-- Section: Social media -->
                 <section class="mb-3">
-
-                    <!-- Facebook -->
                     <a
                         class="btn-link btn-floating btn-lg text-white"
                         href="#!"

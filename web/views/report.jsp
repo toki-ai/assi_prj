@@ -11,8 +11,7 @@
     <body>
         <%@include file="layout/nav.jsp" %>
         <div class="container1" style="margin-top: 100px; min-height: 420px">
-            <div class="header">
-                <input type="text" placeholder="Search Report">
+            <div class="header" style="display: flex; justify-content: right">
                 <form action="reportsAD">
                     <div>
                         <input type="date" name="startDate" required class="date-picker" value="${startDate}" required pattern="\d{4}-\d{2}-\d{2}"/>
@@ -41,16 +40,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagination">
-                <div class="page-number">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                </div>
-            </div>
-        </div>
+                        </div>
         <%@include file="layout/footer.jsp" %>
     </body>
 </html>
