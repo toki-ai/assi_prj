@@ -187,7 +187,7 @@ public class ProductDAO {
 
     public void deleteProduct(String id) {
         String query = "DELETE FROM Products\n"
-                + "WHERE ProductID = ?";
+                + " WHERE ProductID = ?";
         try {
             cnn = new DBUtils().getConnection();
             ps = cnn.prepareStatement(query);
